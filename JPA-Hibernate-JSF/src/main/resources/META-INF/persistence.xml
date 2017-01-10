@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Vamos configurar a unidade de persistência. Aqui dizemos qual é o "provedor" JPA (no meu caso hibernate)
+e nas propriedades falamos sobre o banco de dados. No final das contas esse arquivo serve como configurador
+do hibernate. Então depois que colocamos o hibernate no nosso projeto como dependência esse arquivo vai fazer
+a configuração -->
+
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+	<persistence-unit name="vimerson2" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/vimerson_frameworks"/>
+			<property name="javax.persistence.jdbc.password" value="angra201294"/>
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+			<property name="javax.persistence.jdbc.user" value="postgres"/>
+			<!-- <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/> --> 	
+			<property name="hibernate.hbm2ddl.auto" value="update"/><!--Essa propriedade permite a construção automática de tabelas no banco de dados -->
+		</properties>
+	</persistence-unit>        
+</persistence>
