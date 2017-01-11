@@ -21,7 +21,9 @@ public class UsuarioDAO {
 	public void salvar(Usuario usuario){
 		//Se o usuario possui id o método "merge" vai tentar fazer update
 		//Se ele não possui id o método "merge" vai fazer insert
+		entityManager.getTransaction().begin();
 		entityManager.merge(usuario);
+		entityManager.getTransaction().commit();
 	}
 	
 	
@@ -50,5 +52,9 @@ public class UsuarioDAO {
 	}
 	
 	
-	
+	public void excluir(Usuario usuario){
+		entityManager.getTransaction().begin();
+		entityManager.remove(usuario);
+		entityManager.getTransaction().commit();
+	}
 }
