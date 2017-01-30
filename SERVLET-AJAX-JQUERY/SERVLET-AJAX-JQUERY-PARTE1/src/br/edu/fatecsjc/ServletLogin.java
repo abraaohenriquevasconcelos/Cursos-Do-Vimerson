@@ -8,23 +8,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 @WebServlet(urlPatterns = {"/login"})
 public class ServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ServletLogin() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+  
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -34,21 +25,50 @@ public class ServletLogin extends HttpServlet {
 
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");//tipo de formato ou mime type
 		
-		String usuario = request.getParameter("usuario");
-		String senha = request.getParameter("senha");
+		/************************************************************************************************* 
+		 *************************************************************************************************/
 		
-		if(!usuario.equals("")){
+		/*Pense no HttpSession como uma região de memória compartilhada por todas as requisições feitas
+		  pelo mesmo usuário. Os dados não são armazenados automaticamente na HttpSession. O Java EE tem
+		  a classe HttpSession que tem um HashMap estruturada(Dicionário) e pode armazenar qualquer tipo
+		  de objeto nele de modo que ele pode ser compartilhado por diferentes páginas.
+		  
+		  º    -> Pagina A    --------->          -----------------------
+		 -|-   -> Pagina B	  ---------> 		  | HttpSessio  		|
+		  /\   -> Pagina C	  --------->    	  |	------------------  |
+		  										  |	|"key": "value"	 |	|
+		  										  |	|________________|	|
+		  										  -----------------------
+		  Cada vez que um usuário cria uma sessão, depois disso é enviado para o navegador do usuário um cookie usado para identificar e 
+		  associar o HashMap que acabou de ser criado. Esse HashMap pode ser acessado a partir de qualquer outra página. O conceito de Sessão
+		  é individual para cada usuário que se conecta a nossa aplicação e as informações não são compartilhadas entre eles. Assim, cada
+		  usuário terá seu próprio HashMap para armazenar informações que são úteis entre as páginas.
+		  Usuário A -> HttpSession A -> Cookie A
+		  Usuário B -> HttpSession B -> Cookie B
+		  A sessão é implementada no servlet container. Se os cookies estiverem desabilitados, a sessão não funcionará. A sessão nada nais é que um tempo
+		  em que o usuário permanece ativo no sistema. A cada página visitada, o tempo de sessão é zerado. Quando o tempo ultrapassa um limite demarcado
+		  no arquivo web.xml, o cliente perde sua sessão.
+		  
+		  Para obter um objeto HttpSession usamos o método getSession do objeto javax.servlet.http.HttpServletRequest. Ao obter o objeto HttpSession pela
+		  primeira vez, o recurso Gerenciamento de Sessão utiliza uma entre três 
+		  */
+		
+		//HttpSession session = request.getSession();
+		
+
+		if(!request.getParameter("usuario").equals("")){
+			
 			PrintWriter writer = response.getWriter();
-			writer.println("<html><body><br/><br/><h3>ServletLogin</h3><br/>Usuário: "+usuario+"</body></html>");
+			writer.println("<html><body><br/><br/><h3>ServletLogin</h3><br/>Usuário: "+request.getParameter("usuario")+"</body></html>");
 			writer.close();
 		}else{
-			response.sendRedirect("error?codigoError=105");//redirecionamos a para o servlet de erro
+			request.getSession().setAttribute("mensagem", "Safado");
+			response.sendRedirect("error?codigoError=104");//redirecionamos a para o servlet de erro
 		}
 		
 	}
