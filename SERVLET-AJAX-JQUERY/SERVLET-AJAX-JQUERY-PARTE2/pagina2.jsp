@@ -63,7 +63,9 @@
 				 $.post() method sends request along with(junto com) some data using an HTTP POST request
 				*/
 				
-				$.post("aaa.jsp", $("#formulario1").serialize(), function(response){
+				window.alert($("#formulario1").serialize());
+				$.post("pagina6.jsp", $("#formulario1").serialize(), function(response){
+					window.alert("response: "+response);
 					$("#conteudo").html(response);
 				});
 				
@@ -82,21 +84,18 @@ https://www.youtube.com/watch?v=Euz3Q7sH8mI
 
 
 <form name="formulario1" id="formulario1">
-	<table>
-		<tr>
-			<td>Nome: </td>
-			<td><input type="text" name="nome" id="nome" value="	" /></td>
-		</tr>
-		<tr>
-			<td><input type="submit" value="Enviar" /></td>
-		</tr>
-	</table>
-	
+	Nome: 
+	<input type="text" name="nome" id="nome" value="" /></td>
+	<br/>
+	Idade:
+	<input type="text" name="idade" id="idade" value="" /></td>
+	<br/>
+	<input type="submit" value="Enviar" />
 	
 </form>
 
 
-<div id="conteudo"><br/>
+<div id="conteudo">
 	
 </div>
 
