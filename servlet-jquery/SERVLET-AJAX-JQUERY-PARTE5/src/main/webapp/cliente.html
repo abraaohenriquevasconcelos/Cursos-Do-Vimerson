@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Titulo</title>
+	
+	<script src="js/jquery-1.9.1.js"></script>
+	
+	<script>
+		/*
+		O que precisamos fazer é acessar através do js os dados do formulário e enviar dentro do objeto
+		"request" para a rota "/clientes" usando o método "post"
+		
+		$.post(URL, data, callback);
+		URL -> quem voce quer chamar
+		data -> o conteúdo que vai dentro do "request"
+		callback -> quem vai tratar a resposta desse "post", porque o servlet devolver uma resposta, então
+		é o que vamos fazer com essa resposta. O callback é vai ter uma função que vai tratar a responta
+		Ex.:
+		$("button").click(function(){
+			$.post("clientes", {nome: "Jão",email: "superjao@email"}, function(data, status){
+				alert("Data: "+data+"\nStatus: "+status);
+			});
+		});
+		*/
+		$(document).ready(function(){	
+
+			$("#get_clientes").click(function(){
+				$.get("clientes", function(data, status){
+					var objJS = JSON.parse(data);
+					var conteudo = document.getElementById("conteudo");
+					for(var i = 0; i < objJS.clientes.length; i++){
+						conteudo.innerHTML += objJS.clientes[i].id+" | "+objJS.clientes[i].nome+" | "+objJS.clientes[i].email+"<br/>"; 
+					}
+				});
+			});
+			
+
+			
+			
+						
+			$("#btnSalvar").click(function(){
+				var txtNome = $("#txtNome").val();
+				var txtEmail = $("#txtEmail").val();
+				
+				$.post("clientes", {nome:txtNome, email:txtEmail} ,function(data, status){
+					window.alert(data+"\nStatus: "+status);
+				});
+			});
+		});
+	</script>
+</head>
+<body>
+
+	
+	<h1>Cadastro de Cliente</h1>
+	<form>
+		<label>Nome:</label>
+		<input type="text" id="txtNome" />
+		
+		<label>E-mail:</label>
+		<input type="text" id="txtEmail" />
+		
+		<input type="button" id="btnSalvar" value="Salvar" />
+	</form>
+	
+	<br/><br/>
+	<button id="get_clientes">Get</button>
+	
+	<div id="conteudo">
+	
+	</div>
+</body>
+</html>
