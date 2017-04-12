@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Titulo</title>
+	
+	<script src="js/jquery-1.9.1.js"></script>
+	
+	<script>
+		$(document).ready(function(){
+			carregarClientes();
+			
+			$("#btnSalvar").click(function(){
+				var txtNome = $("#txtNome").val();
+				var txtEmail = $("#txtEmail").val();
+
+				$.ajax({
+					url: 'clientes',
+					type: 'POST',
+					dataType: 'json',
+					contentType: 'application/json;charset=UTF-8',
+					data: JSON.stringify({nome: txtNome, email:txtEmail}),//JSON.stringify() transforma um objeto JS em uma string JSON 
+					success: function(){//callback
+						carregarClientes();
+					}
+				});
+			});
+
+			
+		});
+
+
+
+		
+		function carregarClientes(){
+			$.get("clientes", function(data, status){
+				console.log(data);
+				var conteudo = document.getElementById("conteudo");
+				conteudo.innerHTML = "";
+				for(i=0; i<data.length; i++){
+					conteudo.innerHTML += data[i].id+" | "+data[i].nome+" | "+data[i].email;	
+					conteudo.innerHTML += "<button onclick='excluir("+data[i].id+")'>excluir</button><br />";
+				}
+				
+			});
+		}
+
+		function excluir(id){
+			$.ajax({
+				url: 'clientes/'+id,
+				type: 'DELETE',
+				success: function(){
+					window.alert("Já era!");
+					carregarClientes();
+				}
+			});
+		}
+	</script>
+</head>
+
+<body>
+<h1>Cadastro de Cliente</h1>
+	<form>
+		<label>Nome:</label>
+		<input type="text" id="txtNome" />
+		
+		<label>E-mail:</label>
+		<input type="text" id="txtEmail" />
+		
+		<input type="button" id="btnSalvar" value="Salvar" />
+	</form><br/><br/>
+	
+	
+	
+	<div id="conteudo"></div>
+</body>
+</html>

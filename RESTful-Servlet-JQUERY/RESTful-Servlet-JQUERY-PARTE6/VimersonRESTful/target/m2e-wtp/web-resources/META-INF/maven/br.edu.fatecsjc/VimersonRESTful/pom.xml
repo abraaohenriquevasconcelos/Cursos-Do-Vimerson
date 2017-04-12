@@ -1,0 +1,78 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>br.edu.fatecsjc</groupId>
+  <artifactId>VimersonRESTful</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  
+  
+  <!-- 
+	O Spring é um conjunto de ferramentas e módulos que servem para automatizar. Por exemplo para integrar 
+	uma aplicação com redes sociais podemos utilizar um módulo pronto do Spring que já tem tarefas prontas.
+	Para se conectar com bancos de dados utilizando o padrão JPA usamos outro módulo pronto no Spring. O 
+	Spring Boot é uma junção automática das configurações de todos os módulos do Spring, então o Spring Boot
+	vai deixar tudo automático. Vamos mexer na parte web do Spring para automatizar a leitura e a resposta
+	em json das requisições http, então vamos usar um pedacinho do spring.
+
+	a tag <parent> é uma herança que traz muitas outras dependências do spring pro pom.xml do nosso projeto.
+	Só que vamos pegar só uma pecinha que é a parte de web
+	
+	-->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.4.0.RELEASE</version>
+	</parent>
+	
+	<dependencies>
+	
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+	
+	</dependencies>
+	
+	<properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+
+    <build>
+        <plugins>
+        	<!-- 
+        	The Spring Boot Maven Plugin provides many convenient features:
+        	- It collects all the jars on the classpath and builds a single, 
+        	- It searches for the public static void main() method to flag as a
+        	runnable class. -> ou seja vai pesquisar pelo método main e executar a partir dele
+        	as classes do spring, o contexto do spring
+        	
+        	Make the application executable
+        	Although us possible to package this service as a traditional war file for deployment 
+        	to an external application server, the simpler approach demonstrated below creates a 
+        	standalone application. You package everything in a single, executable JAR file, driven 
+        	by a good old Java main() method. Along the way, you use Spring's support for embedding
+        	the Tomcat servlet container as the HTTP runtime, instead of deploying to an external ins
+        	tance
+        	-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </pluginRepository>
+    </pluginRepositories>
+  
+</project>
